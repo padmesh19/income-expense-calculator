@@ -104,7 +104,6 @@ function addTransaction() {
       description: descriptionVal,
     };
     transactions[id] = transaction;
-
     localStorage.setItem("transactions", JSON.stringify(transactions));
     transactionType();
     amount.value = "";
@@ -159,7 +158,9 @@ function transactionType() {
   let transactionType = document.getElementById("transaction-type").value;
   document.getElementById("transaction-container").innerHTML = "";
   let sortedObject = Object.keys(transactions)
-    .sort()
+    .sort(function (a, b) {
+      return b-a;
+    })
     .reduce((Obj, key) => {
       Obj[key] = transactions[key];
       return Obj;
