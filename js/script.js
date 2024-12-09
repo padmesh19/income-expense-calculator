@@ -399,6 +399,7 @@ function updateValues() {
   document.getElementById("balance").textContent = `${balance.toFixed(2)}`;
   yValues = [balance, expense];
   statsChart();
+  noType();
 }
 
 function showIncomeType() {
