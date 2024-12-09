@@ -199,7 +199,7 @@ function transactionElements(...args) {
     "rounded-md",
     "flex",
     "flex-col",
-    "justify-center",
+    "justify-between",
     "shadow-lg",
     "gap-4"
   );
