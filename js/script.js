@@ -3,7 +3,7 @@ let transactions = {};
 let income = 0;
 let expense = 0;
 let balance = 0;
-let yValues = [];
+let yValues = [0,0];
 
 var modal = document.getElementById("myModal");
 var btn = document.getElementById("add-btn");
