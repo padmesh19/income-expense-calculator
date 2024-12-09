@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.comic-neue {
+  font-family: "Comic Neue", cursive;
+}
+
+.volkhov {
+  font-family: "Volkhov", sans-serif;
+}
+

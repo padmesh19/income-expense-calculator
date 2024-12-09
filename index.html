@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Calculator</title>
+    <link rel="stylesheet" href="./dist/styles.css">
+    <link rel="icon" href="./public/logo.png" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+</head>
+<body class="comic-neue overflow-y-scroll overflow-x-hidden w-full m-0 p-0 bg-[url('./../public/bg-image.jpg')] bg-fixed bg-cover bg-no-repeat transition-all ease-in-out">
+    <div id="main-container" class="container w-full max-w-screen-2xl h-full mx-auto p-0">
+        <div id="sub-container" class="w-full lg:w-4/5 min-h-screen mx-auto bg-gradient-to-t from-zinc-500 via-zinc-300 to-zinc-100">
+            <nav id="navbar" class="z-50 w-full mx-auto py-2 px-8 grid grid-cols-2 sm:grid-cols-4 justify-between content-center bg-gradient-to-r gap-4 from-[#004080] via-[#0060A0] to-[#0080AA] comic-neue sticky top-0">
+                <div class="flex justify-start items-center gap-2">
+                    <h2 class="font-semibold text-white text-lg">Income</h2>
+                    <h2 id="income-amount" class="bg-[#FFFFFF20] p-2 text-green-600 font-semibold rounded-md cursor-pointer text-center align-middle"></h2>
+                </div>
+                <div class="flex justify-start items-center gap-2">
+                    <h2 class="font-semibold text-white text-lg">Expense</h2>
+                    <h2 id="expense-amount" class="bg-[#FFFFFF20] p-2 text-red-800 font-semibold rounded-md cursor-pointer text-center align-middle">
+                        </h2>
+                </div>
+                <div class="flex justify-start items-center gap-2">
+                    <h2 class="font-semibold text-white text-lg">Balance</h2>
+                    <h2 id="balance" class="bg-[#FFFFFF20] p-2 text-fuchsia-800 font-semibold rounded-md cursor-pointer text-center align-middle">
+                        </h2>
+                </div>
+                <button class="w-fit bg-gradient-to-r justify-self-center sm:justify-self-end from-indigo-700 to-indigo-900 text-white py-2 px-4 font-semibold uppercase rounded-md hover:scale-110" onclick="resetApp()">Reset</button>
+            </nav>
+
+            <!-- Modal -->
+            <section id="myModal" class="modal fixed z-10 px-auto pt-10 hidden justify-center items-center w-full md:4/5 h-full left-0 top-0 overflow-auto bg-[rgba(0,0,0,0.4)]">
+                <div class="modal-content bg-[#FEFEFE] pt-4 pb-8 px-4 h-fit rounded-md  border-2 border-[#888] w-full max-w-xs md:max-w-sm lg:max-w-lg">
+                    <span class="close text-red-800 px-4 float-right text-4xl font-bold hover:text-[#000000] hover:no-underline hover:cursor-pointer focus:text-[#000000] focus:no-underline focus:cursor-pointer">&times;</span>
+                    <h1 class="text-2xl px-4 text-white bg-slate-500 rounded-sm py-2 font uppercase">Transaction Details</h1>
+                    <div id="add-transaction" class="w-11/12  lg:w-2/3 mx-auto mt-4 flex flex-col justify-center items-center text-lg gap-4">
+                        <div class="w-full flex flex-col gap-2">
+                            <label for="amount">Enter Amount</label>
+                            <input type="number" name="amount" id="amount" class="w-full border text-base border-slate-500 rounded-sm px-2 py-1 cursor-pointer">
+                            <span id="amount-error" class="text-xs text-red-600 font-bold hidden">* Enter the Amount *</span>
+                        </div>
+                        <div class="w-full flex flex-col gap-2">
+                            <h3>Select Type</h3>
+                            <div class="flex gap-8">
+                                <input type="radio" name="amount-type" id="amount-type-hidden" value=" " class="hidden" checked>
+                                <label for="amount-type-Income">
+                                    <input type="radio" name="amount-type" id="amount-type-Income" value="Income" onclick="showIncomeType()"> Income
+                                </label>
+                                <label for="amount-type-Expense">
+                                    <input type="radio" name="amount-type" id="amount-type-Expense" value="Expense" onclick="showExpenseType()"> Expense
+                                </label>
+                            </div>
+                            <span id="amount-type-error" class="text-xs text-red-600 font-bold hidden">* Enter the Amount Type *</span>
+                        </div>
+                        <div class="w-full flex flex-col gap-2">
+                            <label for="date-time">Enter Date</label>
+                            <input type="date" name="date-time" id="date-time" class="w-full border text-base border-slate-500 rounded-sm px-2 py-1 cursor-pointer">
+                            <span id="date-error" class="text-xs text-red-600 font-bold hidden">* Enter the Date *</span>
+                        </div>
+                        <div class="w-full grid grid-cols-2 items-center gap-x-10-10">
+                            <label for="amount-category">Category</label>
+                            <select name="amount-category" id="amount-category" class="w-full border text-base border-slate-500 rounded-sm px-2 py-1 cursor-pointer">
+                                <option value="" selected>-select-</option>
+                            </select>
+                            <span id="amount-category-error" class="text-xs text-red-600 font-bold hidden">* Enter the Date *</span>
+                        </div>
+                        <div  class="w-full flex flex-col gap-2">
+                            <label for="description">Description</label>
+                            <textarea name="description" id="description" placeholder="Enter your description" class="w-full border text-base border-slate-500 rounded-sm px-2 py-1 cursor-pointer"></textarea>
+                            <span id="description-error" class="text-xs text-red-600 font-bold hidden">* Enter the Date *</span>
+                        </div>
+                        <button id="submit-btn" class="bg-orange-600 uppercase w-full py-2 cursor-pointer font-bold text-white rounded-md" >Add Transaction</button>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="pt-6 pb-8 px-6 h-full">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:sticky lg:top-20 p-4 w-full max-w-lg justify-self-center h-fit shadow-lg bg-white rounded-lg">
+                        <h1 class="uppercase text-xl text-center text-indigo-900 font-semibold">Statistics</h1>
+                        <div id="chart-area" class="w-full p-4">
+                            
+                        </div>                        
+                    </div>
+                    <div class="h-fit w-full p-4 sticky top-20 lg:col-span-2 bg-blue-200 shadow-lg rounded-lg min-h-96">
+                        <div class="grid justify-between content-center grid-cols-2 sm:grid-cols-3 gap-2 p-4 rounded-md bg-white">
+                            <h2 class="text-base text-emerald-900 col-span-2 sm:col-span-1 text-center content-center sm:text-left cursor-none font-semibold uppercase">Transactions</h2>
+                            <select name="transaction-type" id="transaction-type" class="bg-white justify-self-start sm:justify-self-center w-fit cursor-pointer border-2 border-blue-500 rounded-md outline-none active:outline-none visited:outline-none" onchange="transactionType()" >
+                                <option value="All" selected>All</option>
+                                <option value="Income">Income</option>
+                                <option value="Expense">Expense</option>
+                            </select>
+                            <button id="add-btn" class="px-4 justify-self-end w-fit lg:w-[136px] hover:scale-110 p-2 font-bold bg-red-600 rounded-md text-white">Add</button>
+                        </div>
+                        <div id="transaction-container" class="pt-10 pb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+</html>
